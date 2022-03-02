@@ -19,18 +19,6 @@ void Print(
   const int rowsCount, const int columnsCount
 );
 
-void DeleteRow(
-  int** matrix,
-  int& rowsCount,
-  const int rowIndex
-);
-
-void MoveColumn(
-  int** matrix, 
-  const int rowCount, int& columnCount,
-  const int startIndex
-);
-
 void RemoveEmpty(
   int** matrix,
   int& rowsCount, int& columnsCount
@@ -41,18 +29,38 @@ void RemoveEmptyRows(
   int& rowsCount, const int columnsCount
 );
 
+void DeleteRow(
+  int** matrix,
+  int& rowsCount,
+  const int rowIndex
+);
+
 void RemoveEmptyColumns(
   int** matrix,
   const int rowsCount, int& columnsCount
 );
 
+void MoveColumn(
+  int** matrix, 
+  const int rowCount, int& columnCount,
+  const int startIndex
+);
+
+int FindPositiveNumber(
+  int** matrix,
+  const int rowsCount, const int columnsCount
+);
+
 int main()
 {
   srand((unsigned)time(NULL));
-  int Low = 0;
+
+  int Low = -1;
   int High = 1;
+
   int rowsCount;
   int columnCount;
+
   char mode;
   
   cout << "rowsCount = "; cin >> rowsCount;
@@ -64,14 +72,16 @@ int main()
   for (int i = 0; i < rowsCount; i++)
     matrix[i] = new int[columnCount];
 
-  if (mode == 'a') {
-    AutoFillMatrix(matrix, rowsCount, columnCount, Low, High);
+  if (mode == 'm') {
+    ManualFillMatrix(matrix, rowsCount, columnCount);
   }
   else {
-    ManualFillMatrix(matrix, rowsCount, columnCount);
+    AutoFillMatrix(matrix, rowsCount, columnCount, Low, High);
   }
 
   Print(matrix, rowsCount, columnCount);
+
+  cout << FindPositiveNumber(matrix, rowsCount, columnCount) << endl;
 
   RemoveEmpty(matrix, rowsCount, columnCount);
 
@@ -209,4 +219,14 @@ void MoveColumn(
     }
 
   columnCount--;
+}
+
+int FindPositiveNumber(int** matrix, const int rowsCount, const int columnsCount)
+{
+  for (int row = 0; row < rowsCount; row++)
+    for (int column = 0; column < columnsCount; column++)
+      if (matrix[row][column] > 0)
+        return row + 1;
+
+  return -1;
 }
