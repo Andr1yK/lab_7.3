@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "CppUnitTest.h"
+
+#include "../lab_7.3_rec/subFunctions.cpp"
 #include "../lab_7.3_rec/lab_7.3_rec.cpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

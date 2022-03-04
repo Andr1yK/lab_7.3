@@ -1,54 +1,11 @@
 ﻿#include <iostream>
 #include <iomanip>
-//#include "extends_rec.hpp";
+
+#include "subFunctions.hpp"
 
 using namespace std;
 
-#pragma region Auto_Fill
-void AutoFillMatrix(
-  int** matrix,
-  const int rowsCount, const int columnsCount,
-  const int Low, const int High,
-  const int currentRow
-);
-
-void AutoFillMatrixRow(
-  int** matrix,
-  const int columnsCount,
-  const int Low, const int High,
-  const int currentRow, const int currentColumn
-);
-
-#pragma endregion Auto_Fill
-
-#pragma region Manual_Fill
-void ManualFillMatrix(
-  int** matrix,
-  const int rowsCount, const int columnsCount,
-  const int currentRow
-);
-
-void ManualFillMatrixRow(
-  int** matrix,
-  const int columnsCount,
-  const int currentRow, const int currentColumn
-);
-#pragma endregion Manual_Fill
-
-#pragma region Print
-void Print(
-  int** matrix,
-  const int rowsCount, const int columnsCount,
-  const int currentRow
-);
-
-void PrintRow(
-  int** matrix,
-  const int columnsCount,
-  const int currentRow, const int currentColumn
-);
-#pragma endregion Print
-
+#pragma region PROTOTYPES
 void RemoveEmpty(
   int** matrix,
   int& rowsCount, int& columnsCount
@@ -106,7 +63,7 @@ void SwapColumns(
 int FindPositiveNumber(
   int** matrix,
   const int rowsCount, int columnsCount,
-  const int currentRow
+  const int currentRow = 0
 );
 
 int FindPositiveNumberRow(
@@ -114,6 +71,7 @@ int FindPositiveNumberRow(
   const int columnsCount,
   const int currentRow, const int currentColumn
 );
+#pragma endregion
 
 int main()
 {
@@ -137,21 +95,21 @@ int main()
     matrix[i] = new int[columnCount];
 
   if (mode == 'm') {
-    ManualFillMatrix(matrix, rowsCount, columnCount, 0);
+    ManualFillMatrix(matrix, rowsCount, columnCount);
   }
   else {
-    AutoFillMatrix(matrix, rowsCount, columnCount, Low, High, 0);
+    AutoFillMatrix(matrix, rowsCount, columnCount, Low, High);
   }
 
-  Print(matrix, rowsCount, columnCount, 0);
+  Print(matrix, rowsCount, columnCount);
 
   cout << "First positive number in row #" 
-    << FindPositiveNumber(matrix, rowsCount, columnCount, 0) 
+    << FindPositiveNumber(matrix, rowsCount, columnCount)
     << endl;
 
   RemoveEmpty(matrix, rowsCount, columnCount);
 
-  Print(matrix, rowsCount, columnCount, 0);
+  Print(matrix, rowsCount, columnCount);
 
   for (int row = 0; row < rowsCount; row++)
     delete[] matrix[row];
@@ -160,94 +118,6 @@ int main()
 
   return 0;
 }
-
-#pragma region Auto_Fill
-void AutoFillMatrix(
-  int** matrix,
-  const int rowsCount, const int columnsCount,
-  const int Low, const int High,
-  const int currentRow
-) {
-  AutoFillMatrixRow(matrix, columnsCount, Low, High, currentRow, 0);
-
-  if (currentRow < rowsCount - 1) {
-    AutoFillMatrix(matrix, rowsCount, columnsCount, Low, High, currentRow + 1);
-  }
-}
-
-void AutoFillMatrixRow(
-  int** matrix,
-  const int columnsCount,
-  const int Low, const int High,
-  const int currentRow, const int currentColumn
-) {
-  matrix[currentRow][currentColumn] = Low + rand() % (High - Low + 1);
-
-  if (currentColumn < columnsCount - 1) {
-    AutoFillMatrixRow(matrix, columnsCount, Low, High, currentRow, currentColumn + 1);
-  }
-}
-#pragma endregion Auto_Fill
-
-#pragma region Manual_Fill
-void ManualFillMatrix(
-  int** matrix,
-  const int rowsCount, const int columnsCount,
-  const int currentRow
-) {
-  ManualFillMatrixRow(matrix, columnsCount, currentRow, 0);
-  cout << endl;
-
-  if (currentRow < rowsCount - 1) {
-    ManualFillMatrix(matrix, rowsCount, columnsCount, currentRow + 1);
-  }
-}
-
-void ManualFillMatrixRow(
-  int** matrix,
-  const int columnsCount,
-  const int currentRow, const int currentColumn
-) {
-  cout << "a[" << currentRow << "][" << currentColumn << "] = ";
-  cin >> matrix[currentRow][currentColumn];
-
-  if (currentColumn < columnsCount - 1) {
-    ManualFillMatrixRow(matrix, columnsCount, currentRow, currentColumn + 1);
-  }
-}
-#pragma endregion Manual_Fill
-
-#pragma region Print
-void Print(
-  int** matrix,
-  const int rowsCount, const int columnsCount,
-  const int currentRow
-) {
-  PrintRow(matrix, columnsCount, currentRow, 0);
-
-  if (currentRow < rowsCount - 1) {
-    Print(matrix, rowsCount, columnsCount, currentRow + 1);
-  }
-  else {
-    cout << endl;
-  }
-}
-
-void PrintRow(
-  int** matrix,
-  const int columnsCount,
-  const int currentRow, const int currentColumn
-) {
-  cout << setw(4) << matrix[currentRow][currentColumn];
-
-  if (currentColumn < columnsCount - 1) {
-    PrintRow(matrix, columnsCount, currentRow, currentColumn + 1);
-  }
-  else {
-    cout << endl;
-  }
-}
-#pragma endregion Print
 
 void RemoveEmpty(
   int** matrix,
